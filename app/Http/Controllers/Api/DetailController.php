@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Detail;
+use App\Models\Transaction;
 
 class DetailController extends Controller
 {
@@ -42,4 +43,24 @@ class DetailController extends Controller
             ], 409);
         }
     }
+
+    public function getDetailTransactionByUser($user_id){
+        $detail = Detail::whereHas('transaction', function($query) use($user_id){
+                    $query->where('user_id', $user_id);
+                })->get();
+        if(count($detail) > 0){
+            return response()->json([
+                'success' => true,
+                'message' => 'List Data Detail',
+                'data' => $detail
+            ], 200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Detail Not Found',
+                'data' => $detail
+            ], 404);
+        }
+    }
+    
 }

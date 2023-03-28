@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
@@ -49,5 +50,17 @@ class TransactionController extends Controller
     {
         $thePath = public_path('storage/images/' . $namafile) ;
         return response()->file($thePath);
+    }
+
+    //get all transaction by user and detail
+    public function getTransactionByUser(User $user)
+    {
+        $transactions = Transaction::where('user_id', $user->id)->get();
+        return response()->json([
+            'success' => true,
+            'status' => '200',
+            'message' => 'List Data Transaction',
+            'data' => $transactions
+        ], 200);
     }
 }

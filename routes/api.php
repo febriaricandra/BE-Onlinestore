@@ -31,3 +31,6 @@ Route::get('/provinsi', 'App\Http\Controllers\Api\CheckOngkirController@index');
 Route::get('/city/{id}', 'App\Http\Controllers\Api\CheckOngkirController@getKota');
 Route::get('/ongkir/{destination}/{courier}', 'App\Http\Controllers\Api\CheckOngkirController@getOngkir');
 Route::post('/ongkir/{destination}/{courier}', 'App\Http\Controllers\Api\CheckOngkirController@getOngkir');
+
+Route::get('/transaction/{user}', 'App\Http\Controllers\Api\TransactionController@getTransactionByUser');
+Route::get('/detail/{user}', 'App\Http\Controllers\Api\DetailController@getDetailTransactionByUser');
