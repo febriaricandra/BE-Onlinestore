@@ -23,6 +23,7 @@ Route::get('products/images/{image}', 'App\Http\Controllers\Api\ProductControlle
 Route::get('products/search/{name}', 'App\Http\Controllers\Api\ProductController@search');
 
 Route::resource('transactions', 'App\Http\Controllers\Api\TransactionController');
+Route::resource('details', 'App\Http\Controllers\Api\DetailController');
 Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
 Route::post('/register', 'App\Http\Controllers\Api\AuthController@register');
 

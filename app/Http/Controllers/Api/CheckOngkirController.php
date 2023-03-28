@@ -89,7 +89,7 @@ class CheckOngkirController extends Controller
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "origin=445&destination=$destination&weight=1700&courier=$courier",
+            CURLOPT_POSTFIELDS => "origin=501&destination=$destination&weight=1700&courier=$courier",
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/x-www-form-urlencoded",
                 "key: 6adea3588621bdd729c7c9cc4af7165d"

@@ -22,10 +22,11 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
+        $image_path = $request->file('transfer')->store('images', 'public');
         $transaction = Transaction::create([
             'courier' => $request->courier,
-            'transfer' => $request->transfer,
-            'user_id' => auth()->user()->id,
+            'transfer' => $image_path,
+            'user_id' => $request->user_id,
         ]);
         if($transaction){
             return response()->json([
@@ -42,5 +43,11 @@ class TransactionController extends Controller
                 'data' => $transaction
             ], 409);
         }
+    }
+
+    public function showImage($namafile)
+    {
+        $thePath = public_path('storage/images/' . $namafile) ;
+        return response()->file($thePath);
     }
 }
