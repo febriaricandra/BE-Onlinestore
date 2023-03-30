@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Detail;
-use App\Models\Transaction;
 
 class DetailController extends Controller
 {
@@ -45,9 +44,19 @@ class DetailController extends Controller
     }
 
     public function getDetailTransactionByUser($user_id){
-        $detail = Detail::whereHas('transaction', function($query) use($user_id){
-                    $query->where('user_id', $user_id);
-                })->get();
+        
+        // $detail = Detail::whereHas('transaction', function($query) use($user_id){
+        //             $query->where('user_id', $user_id);
+        //         })->get();
+
+        //relationship between transaction, detail, and product table
+        $detail = Detail::with(['transaction', 'product'])
+                ->select('transaction_detail.*')
+                ->join('transactions', 'transactions.id', '=', 'transaction_detail.transaction_id')
+                ->join('products', 'products.id', '=', 'transaction_detail.product_id')
+                ->where('transactions.user_id', $user_id)
+                ->get();
+
         if(count($detail) > 0){
             return response()->json([
                 'success' => true,
@@ -62,5 +71,4 @@ class DetailController extends Controller
             ], 404);
         }
     }
-    
 }
