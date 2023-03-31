@@ -17,6 +17,9 @@ This project was created by [febriaricandraguritno]
 - React [vite]
 [repo: https://github.com/febriaricandra/FE_Onlinestore]
 
+## 3rd Api Party
+- [https://www.rajaongkir.com/]
+
 ## step to initiate project
 
 ### step 1
