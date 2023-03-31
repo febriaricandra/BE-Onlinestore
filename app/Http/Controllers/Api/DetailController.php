@@ -11,7 +11,7 @@ class DetailController extends Controller
     //
 
     public function index(){
-        $detail = Detail::all();
+        $detail = Detail::with(['transaction', 'product', 'transaction.user'])->get();
         return response()->json([
             'success' => true,
             'message' => 'List Data Detail',
