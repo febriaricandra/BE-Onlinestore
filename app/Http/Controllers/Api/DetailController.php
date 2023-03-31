@@ -71,4 +71,9 @@ class DetailController extends Controller
             ], 404);
         }
     }
+
+    public function showImage($namafile){
+        $thePath = public_path('storage/images/' . $namafile) ;
+        return response()->file($thePath);
+    }
 }
