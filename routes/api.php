@@ -36,3 +36,4 @@ Route::get('/transaction/{user}', 'App\Http\Controllers\Api\TransactionControlle
 Route::get('/detail/{user}', 'App\Http\Controllers\Api\DetailController@getDetailTransactionByUser');
 
 Route::get('/detail/images/{image}', 'App\Http\Controllers\Api\DetailController@showImage');
+Route::put('/detail/{id}/confirm', 'App\Http\Controllers\Api\DetailController@confirm');

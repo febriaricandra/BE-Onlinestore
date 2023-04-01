@@ -72,6 +72,29 @@ class DetailController extends Controller
         }
     }
 
+    public function confirm($id){
+        $detail = Detail::find($id);
+        $product = $detail->product;
+        $product->stock = $product->stock - $detail->quantity;
+        $product->save();
+        $detail->status = "Accepted";
+        $detail->save();
+
+        if($detail){
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Confirmed',
+                'data' => $detail
+            ], 201);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Detail Failed to Confirm',
+                'data' => $detail
+            ], 409);
+        }
+    }
+
     public function showImage($namafile){
         $thePath = public_path('storage/images/' . $namafile) ;
         return response()->file($thePath);
