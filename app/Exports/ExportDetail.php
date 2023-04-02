@@ -13,7 +13,11 @@ class ExportDetail implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return Detail::with(['transaction', 'product'])->get();
+        return Detail::with(['transaction', 'product'])
+                ->select('transaction_detail.*', 'transactions.user_id', 'products.name', 'products.image', 'products.price', 'transactions.courier', 'transactions.transfer')
+                ->join('transactions', 'transactions.id', '=', 'transaction_detail.transaction_id')
+                ->join('products', 'products.id', '=', 'transaction_detail.product_id')
+                ->get();
     }
 
     public function headings(): array
