@@ -104,8 +104,6 @@ class DetailController extends Controller
     }
 
     public function exportDetail(){
-        return Excel::download(new ExportDetail, 'detail.csv', \Maatwebsite\Excel\Excel::CSV, [
-            'Content-Type' => 'text/csv',
-        ]);
+        return Excel::download(new ExportDetail, 'detail.xlsx');
     }
 }
