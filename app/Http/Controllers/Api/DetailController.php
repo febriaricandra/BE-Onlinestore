@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Detail;
+use App\Exports\ExportDetail;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class DetailController extends Controller
 {
@@ -98,5 +101,11 @@ class DetailController extends Controller
     public function showImage($namafile){
         $thePath = public_path('storage/images/' . $namafile) ;
         return response()->file($thePath);
+    }
+
+    public function exportDetail(){
+        return Excel::download(new ExportDetail, 'detail.csv', \Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 }
