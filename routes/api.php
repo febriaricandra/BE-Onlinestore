@@ -39,3 +39,4 @@ Route::get('/detail/images/{image}', 'App\Http\Controllers\Api\DetailController@
 Route::put('/detail/{id}/confirm', 'App\Http\Controllers\Api\DetailController@confirm');
 
 Route::get('/export', 'App\Http\Controllers\Api\DetailController@exportDetail');
+Route::get('/userexport', 'App\Http\Controllers\Api\DetailController@exportUser');

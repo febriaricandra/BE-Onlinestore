@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Detail;
 use App\Exports\ExportDetail;
+use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -104,6 +105,12 @@ class DetailController extends Controller
     }
 
     public function exportDetail(){
-        return Excel::download(new ExportDetail, 'detail.xlsx');
+        //download file by date and time
+        return Excel::download(new ExportDetail, 'detail-'.date('Y-m-d H:i:s').'.xlsx');
+    }
+
+    public function exportUser(){
+        //download file by date and time
+        return Excel::download(new UsersExport, 'data-customer-'.date('Y-m-d H:i:s').'.xlsx');
     }
 }

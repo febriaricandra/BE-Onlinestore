@@ -13,10 +13,12 @@ class ExportDetail implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return Detail::with(['transaction', 'product'])
-                ->select('transaction_detail.*', 'transactions.user_id', 'products.name', 'products.image', 'products.price', 'transactions.courier', 'transactions.transfer')
+        return Detail::with(['transaction', 'product', 'transaction.user'])
+                ->select('transaction_detail.*', 'transactions.user_id', 'users.name', 'users.address', 'users.email', 'users.phone', 'products.name', 'products.image', 'products.price', 'transactions.courier', 'transactions.transfer')
                 ->join('transactions', 'transactions.id', '=', 'transaction_detail.transaction_id')
                 ->join('products', 'products.id', '=', 'transaction_detail.product_id')
+                ->join('users', 'users.id', '=', 'transactions.user_id')
+                ->orderBy('transactions.created_at', 'desc')
                 ->get();
     }
 
@@ -26,11 +28,20 @@ class ExportDetail implements FromCollection, WithHeadings
             'ID',
             'Transaction ID',
             'Product ID',
-            'Quantity',
-            'Total',
-            'Status',
+            'Jumlah Produk',
+            'Harga Produk',
+            'status',
             'Created At',
             'Updated At',
+            'User ID',
+            'Nama Produk',
+            'Alamat',
+            'Email',
+            'No. Telepon',
+            'Gambar Produk',
+            'Ongkir Kurir',
+            'Kurir',
+            'Bukti Transfer',
         ];
     }
 }
