@@ -40,3 +40,4 @@ Route::put('/detail/{id}/confirm', 'App\Http\Controllers\Api\DetailController@co
 
 Route::get('/export', 'App\Http\Controllers\Api\DetailController@exportDetail');
 Route::get('/userexport', 'App\Http\Controllers\Api\DetailController@exportUser');
+Route::post('/export/filter', 'App\Http\Controllers\Api\DetailController@exportDetailByDate');

@@ -1,27 +1,33 @@
 <?php
-
 namespace App\Exports;
 
 use App\Models\Detail;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\Exportable;
 
-class ExportDetail implements FromCollection, WithHeadings, withMapping
+class DateExport implements FromQuery
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    use Exportable;
+
+    protected $startDate;
+    protected $endDate;
+
+    public function __construct(string $startDate, string $endDate)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
+    public function query()
     {
         return Detail::with(['transaction', 'product', 'transaction.user'])
                 ->select('transaction_detail.*', 'transactions.user_id', 'users.name', 'users.address', 'users.email', 'users.phone', 'products.name', 'products.image', 'products.price', 'transactions.courier', 'transactions.transfer')
                 ->join('transactions', 'transactions.id', '=', 'transaction_detail.transaction_id')
                 ->join('products', 'products.id', '=', 'transaction_detail.product_id')
                 ->join('users', 'users.id', '=', 'transactions.user_id')
-                ->orderBy('transactions.created_at', 'desc')
-                ->get();
+                ->whereBetween(DB::raw('DATE(transactions.created_at)'), [$this->startDate, $this->endDate])
+                ->orderBy('transactions.created_at', 'desc');
     }
 
     public function headings(): array
@@ -44,29 +50,6 @@ class ExportDetail implements FromCollection, WithHeadings, withMapping
             'Ongkir Kurir',
             'Kurir',
             'Bukti Transfer',
-        ];
-    }
-
-    public function map($detail): array
-    {
-        return [
-            $detail->id,
-            $detail->transaction_id,
-            $detail->product_id,
-            $detail->quantity,
-            $detail->total,
-            $detail->status,
-            $detail->created_at,
-            $detail->updated_at,
-            $detail->user_id,
-            $detail->name,
-            $detail->address,
-            $detail->email,
-            $detail->phone,
-            $detail->image,
-            $detail->courier,
-            $detail->transfer,
-            Date::dateTimeToExcel($detail->created_at),
         ];
     }
 }

@@ -9,6 +9,8 @@ use App\Exports\ExportDetail;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+use App\Exports\DataExport;
+use App\Exports\DateExport;
 
 class DetailController extends Controller
 {
@@ -112,5 +114,13 @@ class DetailController extends Controller
     public function exportUser(){
         //download file by date and time
         return Excel::download(new UsersExport, 'data-customer-'.date('Y-m-d H:i:s').'.xlsx');
+    }
+
+    //sort and export data by date
+    public function exportDetailByDate(Request $request){
+        $start = $request->Awal;
+        $end = $request->Akhir;
+
+        return Excel::download(new DateExport($start, $end), 'detail-'.date('Y-m-d H:i:s').'.xlsx');
     }
 }
